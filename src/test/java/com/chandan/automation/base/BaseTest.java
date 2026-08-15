@@ -28,16 +28,27 @@ public class BaseTest {
 
         ChromeOptions options = new ChromeOptions();
 
-        if (ConfigReader.getBoolean("headless")) {
+        // CI can override the local config with: mvn test -Dheadless=true
+        boolean headless = Boolean.parseBoolean(
+                System.getProperty("headless", ConfigReader.get("headless")));
+
+        if (headless) {
             options.addArguments("--headless=new");
             options.addArguments("--window-size=1920,1080");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
         }
 
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
 
         driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
+
+        if (!headless) {
+            driver.manage().window().maximize();
+        }
+
         driver.manage().timeouts().implicitlyWait(
                 Duration.ofSeconds(ConfigReader.getInt("implicit.wait")));
 

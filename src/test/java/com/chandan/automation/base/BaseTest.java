@@ -7,9 +7,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 
 import com.chandan.automation.utils.ConfigReader;
+import com.chandan.automation.utils.TestListener;
 
+@Listeners(TestListener.class)
 public class BaseTest {
 
     protected WebDriver driver;
@@ -39,6 +42,10 @@ public class BaseTest {
                 Duration.ofSeconds(ConfigReader.getInt("implicit.wait")));
 
         driver.get(ConfigReader.get("base.url"));
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 
     @AfterMethod(alwaysRun = true)

@@ -14,7 +14,7 @@ public class TestListener implements ITestListener {
         if (instance instanceof BaseTest) {
             BaseTest baseTest = (BaseTest) instance;
             String screenshotPath = ScreenshotUtil.capture(
-                    baseTest.driver,
+                    baseTest.getDriver(),
                     result.getMethod().getMethodName());
 
             if (!screenshotPath.isEmpty()) {

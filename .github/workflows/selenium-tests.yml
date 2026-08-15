@@ -34,6 +34,14 @@ jobs:
           path: target/surefire-reports/
           if-no-files-found: warn
 
+      - name: Upload Extent HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-html-report
+          path: target/extent-report/
+          if-no-files-found: warn
+
       - name: Upload failure screenshots
         if: always()
         uses: actions/upload-artifact@v4

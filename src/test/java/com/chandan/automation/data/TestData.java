@@ -2,7 +2,7 @@ package com.chandan.automation.data;
 
 /**
  * Centralized test data used by the UI automation suite.
- * Keeps product data separate from page objects and test logic.
+ * Keeps business/test data separate from page objects and test logic.
  */
 public final class TestData {
 
@@ -12,4 +12,5 @@ public final class TestData {
 
     public static final String PRODUCT_NAME = "Grey jacket";
     public static final String PRODUCT_SLUG = "grey-jacket";
+    public static final String CART_ITEM_COUNT_TEXT = "My Cart (1)";
 }

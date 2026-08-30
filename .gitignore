@@ -1,4 +1,4 @@
-# Maven
+# Maven / build output
 target/
 test-output/
 
@@ -7,18 +7,22 @@ test-output/
 .project
 .settings/
 
-# Java
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Java build artifacts
 *.class
 
 # Logs
 *.log
 
-# Test reports
+# Test reports generated locally
 surefire-reports/
+extent-report/
 
-# IDE files
-.idea/
-*.iml
+# Selenium screenshots generated during execution
+screenshots/
 
 # OS files
 .DS_Store

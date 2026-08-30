@@ -10,20 +10,12 @@ import com.chandan.automation.data.TestData;
 
 public class ProductPage extends BasePage {
 
-    private final By greyJacket =
-            By.cssSelector("a[href*='/products/grey-jacket']");
-
-    private final By productTitle = By.cssSelector("h1");
+    private final By greyJacket = By.cssSelector("a[href*='/products/grey-jacket']");
+    private final By productTitle = By.xpath("//h1[normalize-space()='" + TestData.PRODUCT_NAME + "']");
     private final By productPrice = By.cssSelector("h2");
-
-    private final By addToCartButton =
-            By.cssSelector("form[action*='/cart/add'] input[type='submit']");
-
-    private final By cartLink =
-            By.xpath("//a[contains(normalize-space(.),'My Cart')]");
-
-    private final By checkoutLink =
-            By.xpath("//a[contains(normalize-space(.),'Check Out')]");
+    private final By addToCartButton = By.cssSelector("form[action*='/cart/add'] input[type='submit']");
+    private final By cartLink = By.xpath("//a[contains(normalize-space(.),'My Cart')]");
+    private final By checkoutLink = By.xpath("//a[contains(normalize-space(.),'Check Out')]");
 
     public ProductPage(WebDriver driver) {
         super(driver);
@@ -33,7 +25,7 @@ public class ProductPage extends BasePage {
         WebElement product = waitForClickable(greyJacket);
         scrollIntoView(product);
         product.click();
-        waitForVisibility(productTitle);
+        waitForPresence(productTitle);
     }
 
     public boolean isProductDisplayed() {
@@ -49,10 +41,9 @@ public class ProductPage extends BasePage {
     }
 
     public void addProductToCart() {
-        WebElement addButton = waitForPresence(addToCartButton);
+        WebElement addButton = waitForClickable(addToCartButton);
         scrollIntoView(addButton);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addButton);
-
+        addButton.click();
         wait.until(driver -> driver.findElement(cartLink).getText().contains(TestData.CART_ITEM_COUNT_TEXT));
     }
 

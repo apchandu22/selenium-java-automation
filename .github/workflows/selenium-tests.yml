@@ -23,6 +23,11 @@ jobs:
           java-version: '11'
           cache: maven
 
+      - name: Verify Java and Maven
+        run: |
+          java -version
+          mvn -version
+
       - name: Run Selenium TestNG suite in headless mode
         run: mvn -B clean test -Dheadless=true
 

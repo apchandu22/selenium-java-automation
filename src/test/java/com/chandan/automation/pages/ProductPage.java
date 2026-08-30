@@ -14,6 +14,7 @@ public class ProductPage extends BasePage {
             By.cssSelector("a[href*='/products/grey-jacket']");
 
     private final By productTitle = By.cssSelector("h1");
+    private final By productPrice = By.cssSelector("h2");
 
     private final By addToCartButton =
             By.cssSelector("form[action*='/cart/add'] input[type='submit']");
@@ -43,20 +44,25 @@ public class ProductPage extends BasePage {
         return getText(productTitle);
     }
 
+    public String getProductPrice() {
+        return getText(productPrice);
+    }
+
     public void addProductToCart() {
         WebElement addButton = waitForPresence(addToCartButton);
         scrollIntoView(addButton);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addButton);
 
-        wait.until(driver -> {
-            String cartText = driver.findElement(cartLink).getText().trim();
-            return cartText.contains(TestData.CART_ITEM_COUNT_TEXT);
-        });
+        wait.until(driver -> driver.findElement(cartLink).getText().contains(TestData.CART_ITEM_COUNT_TEXT));
     }
 
     public void openCart() {
         click(cartLink);
         waitForVisibility(checkoutLink);
+    }
+
+    public String getCartText() {
+        return getText(cartLink);
     }
 
     private void scrollIntoView(WebElement element) {

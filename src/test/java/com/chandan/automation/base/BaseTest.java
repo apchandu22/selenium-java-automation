@@ -17,9 +17,9 @@ public class BaseTest {
 
     protected WebDriver driver;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        String browser = ConfigReader.get("browser");
+        String browser = System.getProperty("browser", ConfigReader.get("browser"));
 
         if (!"chrome".equalsIgnoreCase(browser)) {
             throw new IllegalArgumentException(
@@ -28,7 +28,7 @@ public class BaseTest {
 
         ChromeOptions options = new ChromeOptions();
 
-        // CI can override the local config with: mvn test -Dheadless=true
+        // CI can override local configuration: mvn test -Dheadless=true
         boolean headless = Boolean.parseBoolean(
                 System.getProperty("headless", ConfigReader.get("headless")));
 
@@ -38,6 +38,8 @@ public class BaseTest {
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
+        } else {
+            options.addArguments("--start-maximized");
         }
 
         options.addArguments("--disable-notifications");
@@ -45,12 +47,8 @@ public class BaseTest {
 
         driver = new ChromeDriver(options);
 
-        if (!headless) {
-            driver.manage().window().maximize();
-        }
-
-        driver.manage().timeouts().implicitlyWait(
-                Duration.ofSeconds(ConfigReader.getInt("implicit.wait")));
+        // Keep implicit wait disabled. Synchronization is handled with explicit waits.
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
 
         driver.get(ConfigReader.get("base.url"));
     }

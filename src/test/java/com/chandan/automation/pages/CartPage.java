@@ -37,4 +37,8 @@ public class CartPage extends BasePage {
     public boolean isGreyJacketDisplayed() {
         return isDisplayed(greyJacketInCart);
     }
+
+    public String getCartText() {
+        return getText(cartLink);
+    }
 }

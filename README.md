@@ -1,42 +1,76 @@
-# Selenium Java Automation — E-commerce UI Testing
+# 🤖 Selenium Java Automation — E-commerce UI Testing
 
-A maintainable UI automation framework built with **Java, Selenium WebDriver, TestNG, Maven, and Page Object Model (POM)**. The project demonstrates realistic e-commerce test automation, reusable framework components, configurable test execution, and CI execution with GitHub Actions.
+A maintainable **Selenium WebDriver + Java + TestNG + Maven** automation framework built using the **Page Object Model (POM)**. The project demonstrates practical UI automation, reusable framework components, configuration management, reporting and CI execution with GitHub Actions.
 
-## Objective
+> **Portfolio project:** Built to demonstrate real-world QA automation practices for recruiters, QA teams and freelance clients.
 
-Automate critical e-commerce user journeys including:
+## 🎯 Project Objective
+
+Automate critical e-commerce user journeys and validate the application through reusable, maintainable and readable automated tests.
+
+### Current coverage
 
 - Storefront validation
 - Product navigation
+- Product details validation
 - Product selection
 - Add-to-cart validation
-- Checkout availability
+- Cart validation
+- Checkout navigation
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- Java 11
-- Selenium WebDriver 4.35.0
-- TestNG 7.11.0
-- Maven
-- Page Object Model (POM)
-- Explicit waits / WebDriverWait
-- XPath and CSS selectors
-- Git / GitHub
-- GitHub Actions
+- **Language:** Java 11+
+- **Automation:** Selenium WebDriver 4.35.0
+- **Test Framework:** TestNG 7.11.0
+- **Build:** Maven
+- **Design Pattern:** Page Object Model (POM)
+- **Synchronization:** Explicit Wait / WebDriverWait
+- **Locators:** XPath, CSS Selectors
+- **Assertions:** TestNG Assertions
+- **Reporting:** Extent Reports
+- **Version Control:** Git / GitHub
+- **CI:** GitHub Actions
 
-## Project Structure
+## 🏗️ Framework Architecture
+
+```text
+                    TestNG Tests
+                         │
+                         ▼
+                     BaseTest
+                         │
+              ┌──────────┴──────────┐
+              ▼                     ▼
+        ConfigReader          Test Utilities
+              │              / Screenshot / Reports
+              ▼                     │
+        Page Objects ◄──────────────┘
+              │
+              ▼
+        Selenium WebDriver
+              │
+              ▼
+          Web Browser
+```
+
+## 📂 Project Structure
 
 ```text
 selenium-java-automation/
-├── pom.xml
-├── testng.xml
-├── README.md
+│
+├── .github/
+│   └── workflows/
+│       └── selenium-tests.yml
+│
 ├── src/
 │   └── test/
 │       ├── java/
 │       │   └── com/chandan/automation/
 │       │       ├── base/
 │       │       │   └── BaseTest.java
+│       │       ├── data/
+│       │       │   └── TestData.java
 │       │       ├── pages/
 │       │       │   ├── HomePage.java
 │       │       │   ├── ProductPage.java
@@ -44,55 +78,51 @@ selenium-java-automation/
 │       │       ├── tests/
 │       │       │   └── EcommerceFlowTest.java
 │       │       └── utils/
-│       │           └── ConfigReader.java
+│       │           ├── ConfigReader.java
+│       │           ├── ExtentReportManager.java
+│       │           ├── ScreenshotUtil.java
+│       │           └── TestListener.java
+│       │
 │       └── resources/
 │           └── config.properties
-└── .github/
-    └── workflows/
-        └── selenium-tests.yml
+│
+├── .gitignore
+├── pom.xml
+├── testng.xml
+└── README.md
 ```
 
-## Automated Test Coverage
+## 🧪 Automated Test Coverage
 
 | Test ID | Scenario | Type |
 |---|---|---|
 | AUTO-001 | Verify storefront loads | Smoke |
 | AUTO-002 | Open product from storefront | Functional |
-| AUTO-003 | Add product to cart and verify cart item | Functional |
-| AUTO-004 | Verify checkout is available from cart | E2E |
+| AUTO-003 | Verify product details | Functional |
+| AUTO-004 | Add product to cart and verify cart item | Functional |
+| AUTO-005 | Verify checkout is available from cart | E2E |
 
-## Framework Design
+> Test coverage will be expanded as the framework evolves. Test IDs are maintained so the automated suite can be mapped to documented QA test cases.
 
-```text
-TestNG Test
-    ↓
-BaseTest
-    ↓
-ConfigReader → config.properties
-    ↓
-Page Objects
-    ↓
-Selenium WebDriver
-    ↓
-Chrome Browser
-```
-
-### Framework practices
+## 🔧 Framework Features
 
 - Page Object Model for separation of test logic and locators
 - Centralized browser setup and teardown
-- Configuration-driven base URL and browser settings
-- Explicit waits for dynamic UI elements
-- Reusable page objects and methods
+- Configuration-driven browser and URL settings
+- Explicit waits for dynamic elements
+- Reusable page actions
 - Meaningful TestNG assertions
+- Test data management
+- Failure screenshot capture
+- Extent HTML reporting
+- TestNG suite execution
 - Maven dependency management
-- TestNG XML suite execution
-- Git version control
 - GitHub Actions CI execution
+- Headless execution support for CI
 
-## Configuration
+## ⚙️ Configuration
 
-Test execution settings are maintained in:
+Execution settings are maintained in:
 
 `src/test/resources/config.properties`
 
@@ -106,45 +136,75 @@ implicit.wait=0
 explicit.wait=20
 ```
 
-The framework reads these values through `ConfigReader` instead of hardcoding execution settings in test classes.
+Headless execution can also be overridden from the command line:
 
-## Run Locally
+```bash
+mvn clean test -Dheadless=true
+```
+
+## ▶️ Run Locally
 
 ### Prerequisites
 
-- JDK 11+
+- JDK 11 or later
 - Maven 3.8+
 - Google Chrome
 
-### Run the complete suite
+### Run the complete TestNG suite
 
 ```bash
 mvn clean test
 ```
 
-### Run the TestNG suite
+### Run using the TestNG suite file
 
 ```bash
 mvn test -DsuiteXmlFile=testng.xml
 ```
 
-## CI/CD
+## 🔄 CI/CD
 
-GitHub Actions executes the Maven/TestNG suite on:
+GitHub Actions runs the Maven/TestNG suite on:
 
 - Push
 - Pull request
 - Manual workflow dispatch
 
-Workflow:
+The workflow also uploads test reports and failure screenshots as CI artifacts when available.
+
+Workflow file:
 
 `.github/workflows/selenium-tests.yml`
 
-## Test Environment Note
+## 📊 Reporting & Evidence
 
-This project uses a public demo e-commerce storefront for portfolio and learning purposes. UI selectors may require maintenance if the application changes.
+The framework supports:
 
-## Author
+- TestNG/Surefire execution reports
+- Extent HTML reports
+- Failure screenshots
+
+QA documentation and additional evidence will be maintained under `docs/` as the portfolio expands.
+
+## 📋 Planned Portfolio Documentation
+
+```text
+docs/
+├── test-plan/
+├── test-cases/
+├── bug-reports/
+└── screenshots/
+```
+
+These documents will demonstrate not only automation skills, but also practical QA activities such as test planning, test-case design, defect reporting and execution evidence.
+
+## ⚠️ Test Environment Note
+
+This project uses a public demo e-commerce storefront for portfolio and learning purposes. UI selectors and workflows may require maintenance if the application changes.
+
+## 👨‍💻 Author
 
 **A P Chandan**  
-Software Test Engineer | Manual Testing | Automation Testing | Selenium Java | API Testing | GenAI for QA
+Software Test Engineer | Manual Testing | Selenium Java | API Testing | SQL
+
+Open to **Software Test Engineer / QA Engineer opportunities** and suitable freelance / contract QA projects.
